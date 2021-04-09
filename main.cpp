@@ -1,41 +1,34 @@
- #include <iostream>
+#include <iostream>
 
 int parseQuantity(const char * input) {
     if(static_cast<int>(input[0]) < 48 || static_cast<int>(input[0]) > 57) {
         return 0;
     }
-
+   
     int size = 0;
     while (input[size] != '\0') {
-        size++; 
+        size++;
     }
    
-    int counter = 0;
-    for(int i = 0; i <= size; i++) {
-        if(static_cast<int>(input[i]) >= 48 && static_cast<int>(input[i]) <= 57) {
-            counter++;
-        }
-    }
-   
-    char parsedInput[counter];
+    char parsedInput[10];
     int parsedInputIndex = 0;
-    for(int i = 0; i <= size; i++) {
+    for(int i = 0; i < size; i++) {
         if(static_cast<int>(input[i]) >= 48 && static_cast<int>(input[i]) <= 57) {
             parsedInput[parsedInputIndex++] = input[i];
+            if(parsedInputIndex > 9) {
+                break;
+            }
         }
     }
-
-    int intSize = sizeof(int);
-    if(intSize == 2) {
-        return (atoi(parsedInput) < 0) || (counter > 5) ? 32767 : atoi(parsedInput);
-    } else {
-        return (atoi(parsedInput) < 0) || (counter > 10) ? 2147483647 : atoi(parsedInput);
+    if(atoi(parsedInput) < 0) {
+        parsedInput[9] = '\0';
     }
-  return 0;
+    return atoi(parsedInput);
 }
 
 int main()
 {
-    std::cout << parseQuantity("21474836485");
+    std::cout << parseQuantity("123456fdf ]p[' 7890123");
     return 0;
 }
+
